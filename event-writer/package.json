@@ -1,8 +1,8 @@
 {
   "name": "hello-retail-event-writer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Service to write events to a kinesis stream.",
-  "main": "eventWriterApi.js",
+  "main": "secure-eventWriterApi.js",
   "scripts": {},
   "author": "Nordstrom",
   "license": "Apache-2.0",
@@ -10,6 +10,7 @@
     "url": "https://github.com/Nordstrom/hello-retail/issues"
   },
   "dependencies": {
-    "ajv": "^4.10.4"
+    "ajv": "^4.10.4",
+    "lambda-shim": "file:../../trapeze/src/lambda-shim"
   }
 }
