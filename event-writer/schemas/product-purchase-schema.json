@@ -9,7 +9,9 @@
   "type": "object",
   "properties": {
     "schema":  { "type": "string", "format": "url" },
-    "id": { "type": "string" }
+    "id": { "type": "string" },
+    "user": { "type": "string"},
+    "pass": { "type": "string"}
   },
   "required": [
     "schema",

@@ -11,6 +11,8 @@
     "schema":  { "type": "string", "format": "url" },
     "id": { "type": "string" },
     "phone":  { "type": "string" }
+    "user": { "type": "string"},
+    "pass": { "type": "string"}
   },
   "required": [
     "schema",

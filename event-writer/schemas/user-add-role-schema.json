@@ -10,7 +10,9 @@
   "properties": {
     "schema": { "type": "string", "format": "url" },
     "id":     { "type": "string" },
-    "role":   { "type": "string" }
+    "role":   { "type": "string" },
+    "user": { "type": "string"},
+    "pass": { "type": "string"}
   },
   "required": [
     "schema",
