@@ -35,7 +35,7 @@ functions:
   catalog:
     role:
       Fn::GetAtt: [ ProductCatalogBuilder, Arn ]
-    handler: catalog.processKinesisEvent
+    handler: secure-catalog.handler
     environment:
       TABLE_PRODUCT_CATEGORY_NAME: ${self:custom.productCategoryTableName}
       TABLE_PRODUCT_CATALOG_NAME: ${self:custom.productCatalogTableName}
