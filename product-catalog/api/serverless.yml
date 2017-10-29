@@ -23,7 +23,7 @@ functions:
   categories:
     role:
       Fn::GetAtt: [ ProductCatalogApiCategoriesReader, Arn ]
-    handler: catalogApi.categories
+    handler: secure-catalogApi.categories
     environment:
       TABLE_PRODUCT_CATEGORY_NAME:
         Fn::ImportValue: ${self:custom.productCatalogBuilder.custom.exportProductCategoryTableName}
@@ -35,7 +35,7 @@ functions:
   products:
     role:
       Fn::GetAtt: [ ProductCatalogApiProductsReader, Arn ]
-    handler: catalogApi.products
+    handler: secure-catalogApi.products
     environment:
       TABLE_PRODUCT_CATALOG_NAME:
         Fn::ImportValue: ${self:custom.productCatalogBuilder.custom.exportProductCatalogTableName}
