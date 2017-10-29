@@ -26,7 +26,7 @@ functions:
   eventWriter:
     role:
       Fn::GetAtt: [ EventWriter, Arn ]
-    handler: secure-eventWriterApi.handler
+    handler: secure-eventWriterApi.eventWriter
     environment:
       STREAM_NAME:
         Fn::ImportValue: ${self:custom.retailStream.custom.exportRetailStreamName}
