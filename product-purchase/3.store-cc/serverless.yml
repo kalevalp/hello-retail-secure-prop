@@ -19,7 +19,7 @@ functions:
   store:
     role:
       'Fn::GetAtt': [ StoreRole, Arn ]
-    handler: storeCreditCard.handler
+    handler: secure-storeCreditCard.handler
     environment:
       TABLE_CREDIT_CARDS_NAME: 'creditCardsTable'
 

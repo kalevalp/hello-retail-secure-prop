@@ -19,7 +19,7 @@ functions:
   getPrice:
     role:
       'Fn::GetAtt': [ GetPriceRole, Arn ]
-    handler: getPrice.handler
+    handler: secure-getPrice.handler
     environment:
       TABLE_PRODUCT_PRICE_NAME: 'productPriceTable'
 

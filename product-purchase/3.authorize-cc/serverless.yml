@@ -19,7 +19,7 @@ functions:
   authorize:
     role:
       'Fn::GetAtt': [ AuthorizeRole, Arn ]
-    handler: authorize.handler
+    handler: secure-authorize.handler
     environment:
       TABLE_CREDIT_CARDS_NAME: 'creditCardsTable'
 

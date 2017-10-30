@@ -1,11 +1,14 @@
 {
   "name": "publish",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "publish.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kalev Alpernas <kalev.alp@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lambda-shim": "file:../../../trapeze/src/lambda-shim"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "product-purchase-authenticate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "authenticate.js",
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "Kalev Alpernas <kalev.alp@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "kv-store": "file:../../../trapeze/src/kv-store"
+    "lambda-shim": "file:../../../trapeze/src/lambda-shim"
   }
 }

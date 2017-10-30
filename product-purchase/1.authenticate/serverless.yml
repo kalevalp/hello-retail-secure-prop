@@ -19,7 +19,7 @@ functions:
   authenticate:
     role:
       'Fn::GetAtt': [ AuthenticateRole, Arn ]
-    handler: authenticate.authenticate
+    handler: secure-authenticate.authenticate
     environment:
       TABLE_AUTHENTICATION_NAME: 'authenticationTable'
 

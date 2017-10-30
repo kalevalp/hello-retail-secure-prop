@@ -21,7 +21,7 @@ functions:
   purchaseApi:
     role:
       'Fn::GetAtt': [ PurchaseApiRole, Arn ]
-    handler: purchaseApi.handler
+    handler: secure-purchaseApi.handler
     environment:
       STAGE: ${self:custom.stage}
       STEP_FUNCTION:

@@ -22,7 +22,7 @@ functions:
   publish:
     role:
       'Fn::GetAtt': [ PublishRole, Arn ]
-    handler: publish.handler
+    handler: secure-publish.handler
     environment:
       RETAIL_STREAM_NAME:
         Fn::ImportValue: ${self:custom.retailStream.custom.exportRetailStreamName}
