@@ -3,7 +3,7 @@ bucket: ${self:custom.stage}.hello-retail.biz
 bucketArn: arn:aws:s3:::${self:custom.productPhotos.bucket}
 
 # Project
-name: ${self:custom.helloRetail.name}-product-photos
+name: ${self:custom.helloRetail.name}-prodphotos
 productPhotosVersion: 1
 
 # Data

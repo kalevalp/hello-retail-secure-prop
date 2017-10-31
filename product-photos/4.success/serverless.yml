@@ -19,7 +19,7 @@ functions:
   success:
     role:
       'Fn::GetAtt': [ SuccessRole, Arn ]
-    handler: success.handler
+    handler: secure-success.handler
 
 resources:
   Resources:

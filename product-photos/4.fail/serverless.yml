@@ -19,7 +19,7 @@ functions:
   fail:
     role:
       'Fn::GetAtt': [ FailRole, Arn ]
-    handler: fail.handler
+    handler: secure-fail.handler
     environment:
       TABLE_PHOTO_ASSIGNMENTS_NAME: 'photoAssignmentsTable'
       # TODO KALEV - Put the table name in a central location for an easier reuse

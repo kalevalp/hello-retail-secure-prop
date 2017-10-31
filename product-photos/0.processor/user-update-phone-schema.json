@@ -10,7 +10,9 @@
   "properties": {
     "schema":  { "type": "string" },
     "id": { "type": "string" },
-    "phone":  { "type": "string" }
+    "phone":  { "type": "string" },
+    "user":  { "type": "string" },
+    "pass":  { "type": "string" }
   },
   "required": [
     "schema",

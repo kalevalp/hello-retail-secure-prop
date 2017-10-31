@@ -21,7 +21,7 @@ functions:
   processor:
     role:
       'Fn::GetAtt': [ ProcessorRole, Arn ]
-    handler: processor.processKinesisEvent
+    handler: secure-processor.processKinesisEvent
     environment:
       ASSIGNMENTS_PER_REGISTRATION: '3'
       STAGE: ${self:custom.stage}

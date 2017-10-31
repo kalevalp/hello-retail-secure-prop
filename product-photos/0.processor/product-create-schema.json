@@ -14,7 +14,9 @@
     "name":  { "type": "string" },
     "description": { "type": "string" },
     "category": { "type": "string"},
-    "price": {"type": "string"}
+    "price": {"type": "string"},
+    "user": {"type": "string"},
+    "pass": {"type": "string"}
   },
   "required": [
     "schema",

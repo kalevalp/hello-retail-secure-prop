@@ -19,7 +19,7 @@ functions:
   message:
     role:
       'Fn::GetAtt': [ MessageRole, Arn ]
-    handler: message.handler
+    handler: secure-message.handler
 
 resources:
   Resources:

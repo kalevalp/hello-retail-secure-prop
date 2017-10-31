@@ -19,7 +19,7 @@ functions:
   record:
     role:
       'Fn::GetAtt': [ RecordRole, Arn ]
-    handler: record.handler
+    handler: secure-record.handler
     timeout: 240
     environment:
       ACTIVITY_RECEIVE_ARN: ${self:custom.productPhotos.receiveActivityArn}

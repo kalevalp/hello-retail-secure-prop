@@ -19,7 +19,7 @@ functions:
   assign:
     role:
       'Fn::GetAtt': [ AssignRole, Arn ]
-    handler: assign.handler
+    handler: secure-assign.handler
     environment:
       TABLE_PHOTO_REGISTRATIONS_NAME: 'photoRegistrationTable'
       # TODO KALEV - Place the table name in a central location for easier reuse.

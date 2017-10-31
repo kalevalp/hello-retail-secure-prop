@@ -19,7 +19,7 @@ functions:
   unmessage:
     role:
       'Fn::GetAtt': [ UnmessageRole, Arn ]
-    handler: unmessage.handler
+    handler: secure-unmessage.handler
     environment:
       TABLE_PHOTO_REGISTRATIONS_NAME: 'photoRegistrationTable'
       # TODO KALEV - Put the table name in a central location for an easier reuse

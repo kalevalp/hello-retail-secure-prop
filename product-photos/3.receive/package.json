@@ -1,8 +1,8 @@
 {
   "name": "receive",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "",
-  "main": "recevie.js",
+  "main": "secure-receive.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +11,6 @@
   "dependencies": {
     "ajv": "^4.11.3",
     "bluebird": "^3.4.7",
-    "got": "^6.7.1",
-    "kv-store": "file:../../../trapeze/src/kv-store"
+    "lambda-shim": "file:../../../trapeze/src/lambda-shim"
   }
 }

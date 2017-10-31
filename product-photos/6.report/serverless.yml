@@ -21,7 +21,7 @@ functions:
   report:
     role:
       'Fn::GetAtt': [ ReportRole, Arn ]
-    handler: report.handler
+    handler: secure-report.handler
     environment:
       RETAIL_STREAM_NAME:
         Fn::ImportValue: ${self:custom.retailStream.custom.exportRetailStreamName}
