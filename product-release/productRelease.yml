@@ -1,0 +1,19 @@
+# Project
+name: ${self:custom.helloRetail.name}-prodrel
+releaseProductVersion: 1
+
+# Lambdas
+releaseApiName: ${self:custom.releaseProduct.name}-releaseApi
+
+deleteName: ${self:custom.releaseProduct.name}-delete
+exportProductReleaseDeleteLambdaName: ${self:custom.releaseProduct.deleteName}:${self:custom.stage}:ProductReleaseDeleteLambdaName:${self:custom.releaseProduct.releaseProductVersion}
+exportProductReleaseDeleteLambdaArn: ${self:custom.releaseProduct.deleteName}:${self:custom.stage}:ProductReleaseDeleteLambdaArn:${self:custom.releaseProduct.releaseProductVersion}
+
+restoreName: ${self:custom.releaseProduct.name}-restore
+exportProductReleaseRestoreLambdaName: ${self:custom.releaseProduct.restoreName}:${self:custom.stage}:ProductReleaseRestoreLambdaName:${self:custom.releaseProduct.releaseProductVersion}
+exportProductReleaseRestoreLambdaArn: ${self:custom.releaseProduct.restoreName}:${self:custom.stage}:ProductReleaseRestoreLambdaArn:${self:custom.releaseProduct.releaseProductVersion}
+
+# Step Function
+releaseSMName: ${self:custom.releaseProduct.name}-release-sm
+exportProductReleaseStepFunctionName: ${self:custom.releaseProduct.releaseSMName}:${self:custom.stage}:ProductReleaseStepFunctionName:${self:custom.releaseProduct.releaseProductVersion}
+exportProductReleaseStepFunctionArn: ${self:custom.releaseProduct.releaseSMName}:${self:custom.stage}:ProductReleaseStepFunctionArn:${self:custom.releaseProduct.releaseProductVersion}

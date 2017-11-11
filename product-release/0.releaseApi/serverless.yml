@@ -1,0 +1,82 @@
+frameworkVersion: '>=1.0.0 <2.0.0'
+
+service: ${self:custom.releaseProduct.releaseApiName}
+
+custom:
+  stage: ${opt:stage, self:provider.stage, self:custom.private.stage}
+  private: ${file(../../private.yml)}
+  helloRetail: ${file(../../helloRetail.yml)}
+  releaseProduct: ${file(../productRelease.yml)}
+
+provider:
+  name: aws
+  deploymentBucket: ${self:custom.helloRetail.deploymentBucket}
+  runtime: nodejs6.10
+  profile: ${self:custom.private.profile}
+  region: ${self:custom.private.region}
+
+functions:
+  releaseApi:
+    role:
+      'Fn::GetAtt': [ ReleaseApiRole, Arn ]
+    handler: secure-releaseApi.handler
+    environment:
+      STAGE: ${self:custom.stage}
+      STEP_FUNCTION:
+        'Fn::ImportValue': ${self:custom.releaseProduct.exportProductReleaseStepFunctionArn}
+    events:
+      - http:
+          path: release
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    # Log Group
+    ReleaseApiLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: '/aws/lambda/${self:service}-${self:custom.stage}-releaseApi'
+        RetentionInDays: 7
+    # Role
+    ReleaseApiRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /
+        RoleName: ${self:custom.stage}ProductReleaseApi${self:custom.releaseProduct.releaseProductVersion}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: sts:AssumeRole
+              Principal:
+                Service: lambda.amazonaws.com
+        ManagedPolicyArns:
+          - ${self:custom.private.teamPolicy}
+        Policies:
+          - PolicyName: CreateAndWriteToLogStream
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'logs:CreateLogStream'
+                  Resource:
+                    'Fn::GetAtt': [ ReleaseApiLogGroup, Arn ]
+                - Effect: Allow
+                  Action:
+                    - 'logs:PutLogEvents'
+                  Resource:
+                    'Fn::Join':
+                      - ':'
+                      - - 'Fn::GetAtt': [ ReleaseApiLogGroup, Arn ]
+                        - '*'
+          - PolicyName: ExecuteStepFunction  # see https://forums.aws.amazon.com/thread.jspa?messageID=755476&tstart=0 for StepFunction IAM docs
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'states:StartExecution'
+                  Resource:
+                    'Fn::ImportValue': ${self:custom.releaseProduct.exportProductReleaseStepFunctionArn}

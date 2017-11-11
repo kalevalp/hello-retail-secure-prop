@@ -1,0 +1,80 @@
+frameworkVersion: '>=1.0.0 <2.0.0'
+
+service: ${self:custom.releaseProduct.restoreName}
+
+custom:
+  stage: ${opt:stage, self:provider.stage, self:custom.private.stage}
+  private: ${file(../../private.yml)}
+  helloRetail: ${file(../../helloRetail.yml)}
+  releaseProduct: ${file(../productRelease.yml)}
+
+provider:
+  name: aws
+  deploymentBucket: ${self:custom.helloRetail.deploymentBucket}
+  runtime: nodejs6.10
+  profile: ${self:custom.private.profile}
+  region: ${self:custom.private.region}
+
+functions:
+  restore:
+    role:
+      'Fn::GetAtt': [ RestoreRole, Arn ]
+    handler: secure-restore.restore
+    environment:
+      TABLE_PRODUCT_CATALOG_NAME: 'productCatalogTable'
+      TABLE_PRODUCT_PRICE_NAME: 'productPriceTable'
+
+resources:
+  Resources:
+    # Log Group
+    RestoreLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: '/aws/lambda/${self:service}-${self:custom.stage}-restore'
+        RetentionInDays: 7
+    # Role
+    RestoreRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /
+        RoleName: ${self:custom.stage}ReleaseProductRestore${self:custom.releaseProduct.releaseProductVersion}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: sts:AssumeRole
+              Principal:
+                Service: lambda.amazonaws.com
+        ManagedPolicyArns:
+          - ${self:custom.private.teamPolicy}
+        Policies:
+          - PolicyName: CreateAndWriteToLogStream
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'logs:CreateLogStream'
+                  Resource:
+                    'Fn::GetAtt': [ RestoreLogGroup, Arn ]
+                - Effect: Allow
+                  Action:
+                    - 'logs:PutLogEvents'
+                  Resource:
+                    'Fn::Join':
+                      - ':'
+                      - - 'Fn::GetAtt': [ RestoreLogGroup, Arn ]
+                        - '*'
+  Outputs:
+    RestoreLambdaName:
+      Description: The Name of the Product Release Restore Lambda
+      Value:
+        Ref: RestoreLambdaFunction
+      Export:
+        Name: ${self:custom.releaseProduct.exportProductReleaseRestoreLambdaName}
+    RestoreLambdaArn:
+      Description: The Name of the Product Release Restore Lambda
+      Value:
+        'Fn::GetAtt': [ RestoreLambdaFunction, Arn ]
+      Export:
+        Name: ${self:custom.releaseProduct.exportProductReleaseRestoreLambdaArn}

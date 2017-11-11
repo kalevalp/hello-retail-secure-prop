@@ -1,0 +1,67 @@
+frameworkVersion: '>=1.0.0 <2.0.0'
+
+service: ${self:custom.releaseProduct.releaseSMName}
+
+custom:
+  stage: ${opt:stage, self:provider.stage, self:custom.private.stage}
+  private: ${file(../../private.yml)}
+  helloRetail: ${file(../../helloRetail.yml)}
+  retailStream: ${file(../../retail-stream/serverless.yml)}
+  retailStreamVersion: 1
+  releaseProduct: ${file(../productRelease.yml)}
+
+provider:
+  name: aws
+  deploymentBucket: ${self:custom.helloRetail.deploymentBucket}
+  runtime: nodejs6.10
+  profile: ${self:custom.private.profile}
+  region: ${self:custom.private.region}
+
+resources:
+  Resources:
+    # Role
+    StepFunctionRole:
+        Type: AWS::IAM::Role
+        Properties:
+          Path: /
+          RoleName: ${self:custom.stage}ReleaseProductStepFunction${self:custom.releaseProduct.releaseProductVersion}
+          AssumeRolePolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action: sts:AssumeRole
+              Principal:
+                Service: states.${self:custom.private.region}.amazonaws.com
+          ManagedPolicyArns:
+            - ${self:custom.private.teamPolicy}
+          Policies:
+            - PolicyName: InvokeLambdas
+              PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                  - Effect: Allow
+                    Action:
+                      - 'lambda:InvokeFunction'
+                    Resource:
+                      - 'Fn::ImportValue': ${self:custom.releaseProduct.exportProductReleaseDeleteLambdaArn}
+                      - 'Fn::ImportValue': ${self:custom.releaseProduct.exportProductReleaseRestoreLambdaArn}
+    # Step Function
+    StepFunction:
+      Type: 'AWS::StepFunctions::StateMachine'
+      Properties:
+        DefinitionString: '${file(releaseProduct.js):shim}'
+        RoleArn:
+          'Fn::GetAtt': [ StepFunctionRole, Arn ]
+  Outputs:
+    ProductReleaseStepFunctionName:
+      Description: The name of the product release Step Function
+      Value:
+        'Fn::GetAtt': [StepFunction, Name]
+      Export:
+        Name: ${self:custom.releaseProduct.exportProductReleaseStepFunctionName}
+    ProductReleaseStepFunctionArn:
+      Description: The ARN of the product release Step Function
+      Value:
+        Ref: StepFunction
+      Export:
+        Name: ${self:custom.releaseProduct.exportProductReleaseStepFunctionArn}

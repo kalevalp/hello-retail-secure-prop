@@ -1,0 +1,80 @@
+frameworkVersion: '>=1.0.0 <2.0.0'
+
+service: ${self:custom.releaseProduct.deleteName}
+
+custom:
+  stage: ${opt:stage, self:provider.stage, self:custom.private.stage}
+  private: ${file(../../private.yml)}
+  helloRetail: ${file(../../helloRetail.yml)}
+  releaseProduct: ${file(../productRelease.yml)}
+
+provider:
+  name: aws
+  deploymentBucket: ${self:custom.helloRetail.deploymentBucket}
+  runtime: nodejs6.10
+  profile: ${self:custom.private.profile}
+  region: ${self:custom.private.region}
+
+functions:
+  delete:
+    role:
+      'Fn::GetAtt': [ DeleteRole, Arn ]
+    handler: secure-delete.delete
+    environment:
+      TABLE_PRODUCT_CATALOG_NAME: 'productCatalogTable'
+      TABLE_PRODUCT_PRICE_NAME: 'productPriceTable'
+
+resources:
+  Resources:
+    # Log Group
+    DeleteLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: '/aws/lambda/${self:service}-${self:custom.stage}-delete'
+        RetentionInDays: 7
+    # Role
+    DeleteRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /
+        RoleName: ${self:custom.stage}ReleaseProductDelete${self:custom.releaseProduct.releaseProductVersion}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: sts:AssumeRole
+              Principal:
+                Service: lambda.amazonaws.com
+        ManagedPolicyArns:
+          - ${self:custom.private.teamPolicy}
+        Policies:
+          - PolicyName: CreateAndWriteToLogStream
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'logs:CreateLogStream'
+                  Resource:
+                    'Fn::GetAtt': [ DeleteLogGroup, Arn ]
+                - Effect: Allow
+                  Action:
+                    - 'logs:PutLogEvents'
+                  Resource:
+                    'Fn::Join':
+                      - ':'
+                      - - 'Fn::GetAtt': [ DeleteLogGroup, Arn ]
+                        - '*'
+  Outputs:
+    DeleteLambdaName:
+      Description: The Name of the Product Release Delete Lambda
+      Value:
+        Ref: DeleteLambdaFunction
+      Export:
+        Name: ${self:custom.releaseProduct.exportProductReleaseDeleteLambdaName}
+    DeleteLambdaArn:
+      Description: The Name of the Product Release Delete Lambda
+      Value:
+        'Fn::GetAtt': [ DeleteLambdaFunction, Arn ]
+      Export:
+        Name: ${self:custom.releaseProduct.exportProductReleaseDeleteLambdaArn}

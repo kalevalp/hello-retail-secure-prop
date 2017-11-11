@@ -8,9 +8,9 @@
     "lint": "./node_modules/.bin/eslint ./**/*.js ./**/*.jsx",
 
     "root:install":         "./build/1.install.sh \"Installing Top-Level Project Dependencies\"           .",
-    "root:install:all":     "npm run root:install && npm run writer:install && npm run catalog:install:all && npm run photos:install:all && npm run purchase:install:all",
-    "root:deploy:all":      "npm run stream:deploy && npm run writer:deploy && npm run catalog:deploy:all && npm run photos:deploy:all && npm run purchase:deploy:all",
-    "root:remove:all":      "npm run purchase:remove:all && npm run photos:remove:all && npm run catalog:remove:all && npm run writer:remove && npm run stream:remove",
+    "root:install:all":     "npm run root:install && npm run writer:install && npm run catalog:install:all && npm run photos:install:all && npm run purchase:install:all && npm run release:install:all",
+    "root:deploy:all":      "npm run stream:deploy && npm run writer:deploy && npm run catalog:deploy:all && npm run photos:deploy:all && npm run purchase:deploy:all && npm run release:deploy:all",
+    "root:remove:all":      "npm run release:remove:all && npm run purchase:remove:all && npm run photos:remove:all && npm run catalog:remove:all && npm run writer:remove && npm run stream:remove",
 
     "writer:install":       "./build/1.install.sh \"Installing Event Writer Dependencies\"                ./event-writer",
     "writer:deploy":        "./build/2.sls.sh deploy \"Deploying Event Writer\"                           ./event-writer",
@@ -90,7 +90,24 @@
     "purchase:remove:5":      "./build/2.sls.sh remove \"Removing Product Purchase - 4.Publish\"                ./product-purchase/4.publish",
     "purchase:remove:6":      "./build/2.sls.sh remove \"Removing Product Purchase - Purchase SM\"              ./product-purchase/purchase-sm",
     "purchase:remove:7":      "./build/2.sls.sh remove \"Removing Product Purchase - 0.Purchase API\"           ./product-purchase/0.purchaseApi",
-    "purchase:remove:all":    "npm run purchase:remove:7 && npm run purchase:remove:6 && npm run purchase:remove:5 && npm run purchase:remove:4 && npm run purchase:remove:3 && npm run purchase:remove:2 && npm run purchase:remove:1"
+    "purchase:remove:all":    "npm run purchase:remove:7 && npm run purchase:remove:6 && npm run purchase:remove:5 && npm run purchase:remove:4 && npm run purchase:remove:3 && npm run purchase:remove:2 && npm run purchase:remove:1",
+
+    "release:install:1":     "./build/1.install.sh \"Installing Product Release - Release API Dependencies\" ./product-release/0.releaseApi",
+    "release:install:2":     "./build/1.install.sh \"Installing Product Release - Delete Dependencies\" ./product-release/1.delete",
+    "release:install:3":     "./build/1.install.sh \"Installing Product Release - Restore Dependencies\"    ./product-release/2.restore",
+    "release:install:all":   "npm run release:install:1 && npm run release:install:2 && npm run release:install:3",
+
+    "release:deploy:1":      "./build/2.sls.sh deploy \"Deploying Product Release - 1.Delete\"          ./product-release/1.delete",
+    "release:deploy:2":      "./build/2.sls.sh deploy \"Deploying Product Release - 2.Restore\"             ./product-release/2.restore",
+    "release:deploy:3":      "./build/2.sls.sh deploy \"Deploying Product Release - Purchase SM\"             ./product-release/release-sm",
+    "release:deploy:4":      "./build/2.sls.sh deploy \"Deploying Product Release - 0.Release API\"          ./product-release/0.releaseApi",
+    "release:deploy:all":    "npm run release:deploy:1 && npm run release:deploy:2 && npm run release:deploy:3 && npm run release:deploy:4",
+
+    "release:remove:1":      "./build/2.sls.sh remove \"Removing Product Release - 1.Delete\"           ./product-release/1.delete",
+    "release:remove:2":      "./build/2.sls.sh remove \"Removing Product Release - 2.Restore\"              ./product-release/2.restore",
+    "release:remove:3":      "./build/2.sls.sh remove \"Removing Product Release - Purchase SM\"              ./product-release/release-sm",
+    "release:remove:4":      "./build/2.sls.sh remove \"Removing Product Release - 0.Release API\"           ./product-release/0.releaseApi",
+    "release:remove:all":    "npm run release:remove:4 && npm run release:remove:3 && npm run release:remove:2 && npm run release:remove:1"
 
   },
   "repository": {
