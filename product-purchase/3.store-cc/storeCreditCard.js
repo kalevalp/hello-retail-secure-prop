@@ -10,6 +10,8 @@ const constants = {
 };
 
 module.exports.handler = (event, context, callback) => {
+  try {bumpLabelTo(getCurrentLabel() + 'CC');} catch (err) {}
+
   let p;
 
   if (event.storeCC) {

@@ -10,6 +10,8 @@ const constants = {
 };
 
 module.exports.handler = (event, context, callback) => {
+  try {bumpLabelTo('ccCompany')} catch (err) {}
+
   console.log(event);
   const result = event;
   if (event.creditCard) {
