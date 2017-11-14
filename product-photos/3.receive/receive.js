@@ -278,6 +278,8 @@ const impl = {
  */
 module.exports = {
   handler: (event, context, callback) => {
+    try { bumpLabelTo('owner') } catch (err) {}
+
     impl.validateApiGatewayRequest(event)
       .then(impl.getResources)
       .then(impl.storeImage)

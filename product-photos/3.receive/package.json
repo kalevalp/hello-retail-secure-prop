@@ -1,6 +1,6 @@
 {
   "name": "receive",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "secure-receive.js",
   "scripts": {
