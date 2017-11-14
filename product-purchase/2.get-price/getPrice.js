@@ -21,7 +21,7 @@ module.exports.handler = (event, context, callback) => {
       if (res) {
         // const price = JSON.parse(res).price;
 
-        if (res) {
+        if (res && Number.isInteger(Number.parseInt(res, 10))) {
           result.gotPrice = 'true';
           result.price = res;
         } else {
