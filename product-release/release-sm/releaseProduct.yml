@@ -10,5 +10,4 @@ States:
   Restore:
     Type: Task
     Resource: arn:aws:lambda:${self:custom.private.region}:${self:custom.private.accountId}:function:${self:custom.releaseProduct.restoreName}-${self:custom.stage}-restore
-    Next: CheckGetPrice
     End: true
