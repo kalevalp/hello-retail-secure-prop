@@ -1,0 +1,10 @@
+region: eu-central-1
+
+profile: vmware
+accountId: 
+
+teamRole: 
+teamPolicy: arn:aws:iam::aws:policy/AdministratorAccess
+
+company: vmware
+team: vrg
